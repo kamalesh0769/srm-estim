@@ -1,0 +1,49 @@
+# dependencies
+node_modules/
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# environment files (keep the example, never real secrets)
+.env
+.env.*
+!.env.example
+
+# database — SQLite data files are machine-local, never commit them
+db/
+prisma/*.db
+prisma/*.db-journal
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# misc
+.DS_Store
+*.pem
+*.tsbuildinfo
+next-env.d.ts
+coverage/
+.vercel
+
+# platform / sandbox scaffolding (not part of the application)
+/.zscripts/
+/Caddyfile
+/skills/
+/scripts/
+/upload/
+/download/
+/examples/
+/mini-services/
+/tests/
+/.claude
+/.z-ai-config
+/prompt
+/local-*

@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// A saved estimate for a customer's print job
+model Quotation {
+  id              String   @id @default(cuid())
+  quoteNo         Int      @unique
+  customerName    String   @default("")
+  customerPhone   String   @default("")
+  productName     String   @default("")
+  orderDetails    String   @default("")
+
+  // Job inputs
+  piecesPerSheet  Int
+  totalPieces     Int
+  sides           String // "single" | "double"
+  sheetCostSingle Float
+  sheetCostDouble Float    @default(0)
+
+  // Processing
+  cutMode         String   @default("overall") // "overall" | "per_piece" | "per_sheet"
+  cutCost         Float    @default(0)
+  creaseMode      String   @default("overall") // "overall" | "per_piece" | "per_sheet"
+  creaseCost      Float    @default(0)
+  lamination      Boolean  @default(false)
+  lamMode         String   @default("per_sheet") // "overall" | "per_sheet"
+  lamCost         Float    @default(0)
+
+  // Computed totals (server-side source of truth)
+  sheets          Int
+  printingCost    Float
+  cuttingTotal    Float
+  creasingTotal   Float
+  laminationTotal Float
+  grandTotal      Float
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+// A frequently used set of rates that can be re-applied to new estimates
+model SavedRate {
+  id              String   @id @default(cuid())
+  name            String
+  piecesPerSheet  Int
+  sides           String   @default("single")
+  sheetCostSingle Float
+  sheetCostDouble Float    @default(0)
+  cutMode         String   @default("overall")
+  cutCost         Float    @default(0)
+  creaseMode      String   @default("overall")
+  creaseCost      Float    @default(0)
+  lamination      Boolean  @default(false)
+  lamMode         String   @default("per_sheet")
+  lamCost         Float    @default(0)
+  createdAt       DateTime @default(now())
+}
